@@ -1,5 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Chat = () => <h1>Chat</h1>;
+const Chat = () => {
+  const [message, updateMessage] = useState("");
+  const [messages, updateMessages] = useState([]);
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    if (message.trim()) {
+      updateMessages([
+        ...messages,
+        {
+          id: 1,
+          message,
+        },
+      ]);
+      updateMessage("");
+    }
+  };
+
+  const handleInputChange = (event) => updateMessage(event.target.value);
+
+  return (
+    <main className="container">
+      <ul className="list">
+        {messages.map((m) => (
+          <li className={"list__item list__item"} key={m.id}>
+            <span className={"message message--mine"}>{m.message}</span>
+          </li>
+        ))}
+      </ul>
+      <form className="form" onSubmit={handleFormSubmit}>
+        <input
+          className="form__field"
+          onChange={handleInputChange}
+          placeholder="Type a new message here"
+          type="text"
+          value={message}
+        />
+      </form>
+    </main>
+  );
+};
 
 export default Chat;
